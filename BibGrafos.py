@@ -111,9 +111,9 @@ class Grafo:
       queue = deque()
       visitado = [False] * self.num_vert()
       caminho = []
-      level = np.empty(self.num_vert(), dtype = int)
+      level = np.empty(self.num_vert(), dtype = int) #Vetor auxiliar que armazena os níveis de cada vértice na árvore geradora
       queue.append(start)
-      caminho.append((start, -1, 0))
+      caminho.append(("raiz", start , 0)) 
       level[start-1] = 0
       if self.represent == "matriz":
         while queue:
@@ -155,7 +155,7 @@ class Grafo:
       level = np.empty(self.num_vert(), dtype = int)
 
       stack.append(start)
-      caminho.append((start, -1, 0))
+      caminho.append(("raiz", start , 0))
       level[start-1] = 0
 
 
