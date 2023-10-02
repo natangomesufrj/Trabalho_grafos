@@ -334,7 +334,7 @@ class Grafo:
          comp_size.append(len(y))
       return (n_componentes,comp_size,conexas)
 
-    def info(self): #gera um arquivo com várias informações
+    def info(self): #Gera um arquivo com várias informações
        c = self.conexas()
        file = open("grafo_info.txt",'w')
        file.write("O grafo contém ")
