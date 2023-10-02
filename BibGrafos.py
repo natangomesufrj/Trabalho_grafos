@@ -225,27 +225,7 @@ class Grafo:
 
     def diametro(self): #Roda uma BFS em cada uma das vértices, retorna a maior distância possível
       diam = 0
-      start = 1
-      queue = deque()
-      visitado = [False] * self.num_vert()
-      level = np.zeros(self.num_vert(), dtype = int)
-      queue.append(start)
-      level[start-1] = 0
-      if self.represent == "matriz":
-          while queue:
-              v = queue.popleft()
-              visitado[v-1]="Explorado"
-              ones = np.where(self.graph[v-1] == 1)[0]
-              for w in ones:
-                  if visitado[w]==False:
-                      visitado[w]="Descoberto"
-                      level[w] = level[v-1] + 1
-                      queue.append(w+1)
-          diam = np.max(level)
-          for x in visitado:
-            if x == False:
-              return "Indefinido"
-          for start in range(2,self.num_vert()+1):
+      for start in range(1,self.num_vert()+1):
             queue = deque()
             visitado = [False] * self.num_vert()
             level = np.zeros(self.num_vert(), dtype = int)
@@ -263,19 +243,7 @@ class Grafo:
             if np.max(level) > diam:
                 diam = np.max(level)
       else:
-          while queue:
-            v = queue.popleft()
-            visitado[v-1] = "Explorado"
-            for w in self.graph[v-1]:
-              if visitado[w] == False:
-                  visitado[w] = "Descoberto"
-                  level[w] = level[v-1] +1
-                  queue.append(w+1)
-          diam = np.max(level)
-          for x in visitado:
-             if x==False:
-                return "Indefinido"
-          for start in range(2,self.num_vert()+1):
+          for start in range(1,self.num_vert()+1):
             queue = deque()
             visitado = [False] * self.num_vert()
             level = np.zeros(self.num_vert(), dtype = int)
@@ -379,9 +347,6 @@ class Grafo:
                       queue.append(w+1)
           diam = np.max(level)
           new_start = np.where(level == diam)[0][0]
-          for x in visitado:
-            if x == False:
-              return "Indefinido"
       else:
           while queue:
             v = queue.popleft()
@@ -393,9 +358,6 @@ class Grafo:
                   queue.append(w+1)
           diam = np.max(level)
           new_start = np.where(level == diam)[0][0]
-          for x in visitado:
-             if x==False:
-                return "Indefinido"
       queue = deque()
       visitado = [False] * self.num_vert()
       level = np.zeros(self.num_vert(), dtype = int)
