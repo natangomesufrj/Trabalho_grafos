@@ -302,7 +302,6 @@ class Grafo:
             v = queue.popleft()
             visitado[v-1]="Explorado"
             ones = np.where(self.graph[v-1] == 1)[0] #Retorna os índices das colunas da linha v com 1s
-            # Ainda precisa verificar a aresta com v
             for w in ones:
                 if visitado[w]==False:
                     componentes.append(w+1)
