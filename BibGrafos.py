@@ -357,7 +357,9 @@ class Grafo:
        file.write(str(c[1]))
        file.write(".\nA lista de componentes conexas é ")
        file.write(str(c[2]))
+       file.write(".")
        file.close()
+
 
     def diametro_a(self): #Diâmetro aproximado para grafos muito grandes
       start = randint(1,self.num_vert())
