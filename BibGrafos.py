@@ -328,65 +328,16 @@ class Grafo:
        file.close()
 
 
-    def diametro_a(self): #Diâmetro aproximado para grafos muito grandes
-      start = randint(1,self.num_vert())
-      queue = deque()
-      visitado = [False] * self.num_vert()
-      level = np.zeros(self.num_vert(), dtype = int)
-      queue.append(start)
-      level[start-1] = 0
-      if self.represent == "matriz":
-          while queue:
-              v = queue.popleft()
-              visitado[v-1]="Explorado"
-              ones = np.where(self.graph[v-1] == 1)[0]
-              for w in ones:
-                  if visitado[w]==False:
-                      visitado[w]="Descoberto"
-                      level[w] = level[v-1] + 1
-                      queue.append(w+1)
-          diam = np.max(level)
-          new_start = np.where(level == diam)[0][0]
-      else:
-          while queue:
-            v = queue.popleft()
-            visitado[v-1] = "Explorado"
-            for w in self.graph[v-1]:
-              if visitado[w] == False:
-                  visitado[w] = "Descoberto"
-                  level[w] = level[v-1] +1
-                  queue.append(w+1)
-          diam = np.max(level)
-          new_start = np.where(level == diam)[0][0]
-      queue = deque()
-      visitado = [False] * self.num_vert()
-      level = np.zeros(self.num_vert(), dtype = int)
-      queue.append(new_start)
-      level[new_start-1] = 0
-      if self.represent == "matriz":
-          while queue:
-              v = queue.popleft()
-              visitado[v-1]="Explorado"
-              ones = np.where(self.graph[v-1] == 1)[0]
-              for w in ones:
-                  if visitado[w]==False:
-                      visitado[w]="Descoberto"
-                      level[w] = level[v-1] + 1
-                      queue.append(w+1)
-          if np.max(level) > diam:
-             return np.max(level)
-          else:
-             return diam
-      else:
-          while queue:
-            v = queue.popleft()
-            visitado[v-1] = "Explorado"
-            for w in self.graph[v-1]:
-              if visitado[w] == False:
-                  visitado[w] = "Descoberto"
-                  level[w] = level[v-1] +1
-                  queue.append(w+1)
-          if np.max(level) > diam:
-             return np.max(level)
-          else:
-             return diam
+def diametro_a(self):
+      c = self.conexas()
+      diam = 0
+      for x in c[2]:
+        s = random.choice(x)
+        b = self.bfs(s)
+        if b[len(b)-1][2] > diam:
+            diam = b[len(b)-1][2]
+        b2 = self.bfs(b[len(b)-1][1])
+        if b2[len(b2)-1][2] > diam:
+            diam = b2[len(b2)-1][2]
+      return diam
+
