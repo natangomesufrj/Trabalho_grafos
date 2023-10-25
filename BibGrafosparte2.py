@@ -436,22 +436,22 @@ class Grafo:
        file.write(".")
        file.close()  
     
-    def vector_dijkstra_all(self,start):
+    def vector_dijkstra_all_t(self,start):
       dist = [np.inf] * self.num_vert()
       descoberto = [False] * self.num_vert()
-      fila = [start-1]
+      lista_execucao = [start-1]
       dist[start-1] = 0
       caminho = [[start] for x in range(0,self.num_vert())]
-      while fila != []:
+      while lista_execucao != []:
         dist_u = np.inf
-        for x in fila:
+        for x in lista_execucao:
               if dist_u> dist[x]:
                 u = x
                 dist[u] = dist[x]
                 dist_u = dist[x]
         for v,weight in self.graph[u]:
                 if descoberto[v] == False:
-                  fila.append(v)
+                  lista_execucao.append(v)
                   descoberto[v] = True
                 if weight < 0:
                   raise Exception("Esta biblioteca não implementa caminhos mínimos em grafos com pesos negativos")
@@ -459,8 +459,9 @@ class Grafo:
                   caminho[v] = copy.deepcopy(caminho[u])
                   dist[v]=dist[u]+ weight
                   caminho[v].append(v+1)
-        fila.remove(u)
+        lista_execucao.remove(u)
       return (dist,caminho)
+
 
     def vector_dijkstra(self,start,end):
       djk = self.vector_dijkstra_all(start)
