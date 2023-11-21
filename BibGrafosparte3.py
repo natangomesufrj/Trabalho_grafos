@@ -542,24 +542,25 @@ class Grafo:
           visitado[v-1] = "Explorado"
           for w in self.residual[v-1]:
             if visitado[w[0]-1] == False:
-                caminho.append((v,w[0],w[1]))
-                visitado[w[0]-1] = "Descoberto"
-                queue.append(w[0])
-                if w[0] == sumidouro:
-                   parent = v
-                   path.append(w[0])
-                   capacidades.append(w[1])
-                   while parent != "raiz":
-                      for node in caminho:
-                         if node[1] == parent:
-                            path.insert(0,parent)
-                            if node[2] != 0:
-                              capacidades.insert(0,node[2])
-                            parent = node[0]
-                            break
-                   if path == [w[0]]:
-                     return (path,capacidades,False)
-                   return (path,capacidades,True)
+                if w[1] != 0:
+                  caminho.append((v,w[0],w[1]))
+                  visitado[w[0]-1] = "Descoberto"
+                  queue.append(w[0])
+                  if w[0] == sumidouro:
+                    parent = v
+                    path.append(w[0])
+                    capacidades.append(w[1])
+                    while parent != "raiz":
+                        for node in caminho:
+                          if node[1] == parent:
+                              path.insert(0,parent)
+                              if node[2] != 0:
+                                capacidades.insert(0,node[2])
+                              parent = node[0]
+                              break
+                    if path == [w[0]]:
+                      return (path,capacidades,False)
+                    return (path,capacidades,True)
       if bool(path) == False:
         return (path,[],False)
       return (path,capacidades,True)
@@ -614,17 +615,17 @@ class Grafo:
                           ar_res2[1] += bottleneck #Atualiza a aresta reversa
                           break
                         break
-                    elif ar_res[0] == "r": #É aresta reversa
+                    elif ar_res[2] == "r": #É aresta reversa
                       for s in  self.graph[caminho[v]-1]:
-                          if s[0] == v+1:
+                          if s[0] == caminho[v+1]:
                             s[2] -= bottleneck #Atualiza o fluxo no grafo original
                             break
-                      ar_res[1] += bottleneck #Atualiza a aresta reversa
+                      ar_res[1] -= bottleneck #Atualiza a aresta reversa
+                      if ar_res[1] == 0:
+                        self.residual[caminho[v]-1].remove(ar_res)
                       for ar_res2 in self.residual[caminho[v+1]-1]: 
                         if ar_res2[0] == caminho[v]:
-                          ar_res2[1] -= bottleneck #Atualiza a aresta do grafo residual
-                          if ar_res[1] == 0:
-                              self.residual[caminho[v]-1].remove(ar_res)
+                          ar_res2[1] += bottleneck #Atualiza a aresta do grafo residual
                           break
                         break
         return (flux,self.graph)
